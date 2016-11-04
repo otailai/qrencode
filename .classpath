@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="lib" path="C:/Users/i331052/Downloads/zxing-3.2.1.jar" sourcepath="C:/Users/i331052/Downloads/ZXing-2.3.0.zip"/>
+	<classpathentry kind="lib" path="C:/Users/i331052/Downloads/security_jar/bcprov-ext-jdk15on-149.jar"/>
+	<classpathentry kind="lib" path="C:/Users/i331052/Downloads/security_jar/bcprov-jdk15on-149.jar"/>
+	<classpathentry kind="lib" path="C:/Users/i331052/Downloads/security_jar/commons-codec-1.10.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/jmagick.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/QRCode.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/Qrcodeen.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
