@@ -96,6 +96,8 @@ public class Test {
 		SecretKey receiver = map.get("ReceiverDesKey");
 		finalresult = Decode.Decrypt(finalresult, receiver, "DESede");
 		System.out.println(new String(finalresult));
+		
+		
 //		
 		
 	}
