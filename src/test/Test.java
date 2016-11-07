@@ -28,6 +28,7 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.interfaces.DHPublicKey;
 import javax.crypto.interfaces.PBEKey;
 import javax.crypto.spec.DHParameterSpec;
+import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.PBEParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
@@ -42,18 +43,17 @@ import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 
 import main.Interpreter;
-import security.CryptInitial;
-import security.Decode;
-import security.Encode;
+import security.DH3DESInitial;
+import security.DH3DESDecode;
+import security.DH3DESEncode;
+import security.RSADecrypt;
+import security.RSAEncrypt;
+import security.RSAInitial;
 
 public class Test {
 
-	private static String src = "几种常见的非对称加密算法的在"
-			+ "\n" +"Java中的应用几种常见的非对称加密算法的在Java中的应"
-			+ "\n" +"用几种常见的非对称加密算法的在Java中的应用几种常见的非"
-			+ "\n" +"对称加密算法的在Java中的应用";
+	private static String src = "helloworld";
 
-	@SuppressWarnings({ "deprecation", "unused", "unused" })
 	public static void main(String[] args) throws Exception {
 //		 String text = "你好吗";
 //		 int width = 100;
@@ -72,32 +72,59 @@ public class Test {
 //		 System.out.println(time);
 
 //		jdkDH();
-//		jdkAes();
+		jdkAes();
 //		jdkPBE();
 //		jdkRSA();
-		String format = "png";
-		String pathname = "777.png";
-		Map<String, SecretKey> map = CryptInitial.doInit();
-		SecretKey sender = map.get("SenderDesKey");
-		byte[] result = Encode.Encrypt(src, sender, "DESede");
-		
-		String text = Base64.encodeBase64URLSafeString(result);
-		Hashtable<EncodeHintType, String> hints = new Hashtable<EncodeHintType, String>();
-		hints.put(EncodeHintType.CHARACTER_SET, "utf-8");
-		BitMatrix bitMatrix = new MultiFormatWriter().encode(text, BarcodeFormat.QR_CODE, 600, 600, hints);
-		BufferedImage bImage = MatrixToImageWriter.toBufferedImage(bitMatrix);
-		try {
-			ImageIO.write(bImage, format, new File(pathname));
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-		
-		byte[] finalresult = Interpreter.interpretQRCode(pathname);
-		SecretKey receiver = map.get("ReceiverDesKey");
-		finalresult = Decode.Decrypt(finalresult, receiver, "DESede");
-		System.out.println(new String(finalresult));
 		
 		
+//		String format = "png";
+//		String pathname = "777.png";
+//		Map<String, SecretKey> map = CryptInitial.doInit();
+//		SecretKey sender = map.get("SenderDesKey");
+//		byte[] result = Encode.Encrypt(src, sender, "DESede");
+//		
+//		String text = Base64.encodeBase64URLSafeString(result);
+//		Hashtable<EncodeHintType, String> hints = new Hashtable<EncodeHintType, String>();
+//		hints.put(EncodeHintType.CHARACTER_SET, "utf-8");
+//		BitMatrix bitMatrix = new MultiFormatWriter().encode(text, BarcodeFormat.QR_CODE, 600, 600, hints);
+//		BufferedImage bImage = MatrixToImageWriter.toBufferedImage(bitMatrix);
+//		try {
+//			ImageIO.write(bImage, format, new File(pathname));
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//		}
+//		
+//		byte[] finalresult = Interpreter.interpretQRCode(pathname);
+//		SecretKey receiver = map.get("ReceiverDesKey");
+//		finalresult = Decode.Decrypt(finalresult, receiver, "DESede");
+//		System.out.println(new String(finalresult));
+		
+		
+		
+		
+//		String format = "png";
+//		String pathname = "666.png";
+//		
+//		Map<String, Key> keyMap = RSAInitial.generateKeys();
+//		byte[] result = RSAEncrypt.getRSAEncode(src, (RSAPrivateKey) keyMap.get("RSAPrivateKey"));
+//		System.out.println(Base64.encodeBase64String(result));
+//		
+//		String text = Base64.encodeBase64String(result);
+//		Hashtable<EncodeHintType, String> hints = new Hashtable<EncodeHintType, String>();
+//		hints.put(EncodeHintType.CHARACTER_SET, "utf-8");
+//		BitMatrix bitMatrix = new MultiFormatWriter().encode(text, BarcodeFormat.QR_CODE, 600, 600, hints);
+//		BufferedImage bImage = MatrixToImageWriter.toBufferedImage(bitMatrix);
+//		try {
+//			ImageIO.write(bImage, format, new File(pathname));
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//			e.printStackTrace();
+//		}
+//		
+//		result = Interpreter.interpretQRCode(pathname);
+//		
+//		result = RSADecrypt.getRSADecode(result, (RSAPublicKey) keyMap.get("RSAPublicKey"));
+//		System.out.println(new String(result));
 //		
 		
 	}
@@ -109,14 +136,17 @@ public class Test {
 			keyGenerator.init(new SecureRandom());
 			SecretKey secretKey = keyGenerator.generateKey();
 			byte[] keyBytes = secretKey.getEncoded();
+			
+			byte[] iv = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		    IvParameterSpec ivspec = new IvParameterSpec(iv);
 
 			// key转换
 			Key key = new SecretKeySpec(keyBytes, "AES");
-
+ 
 			// 加密
-			Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
-			cipher.init(Cipher.ENCRYPT_MODE, key);
-			byte[] result = cipher.doFinal(src.getBytes());
+			Cipher cipher = Cipher.getInstance("AES/CBC/NoPadding");
+			cipher.init(Cipher.ENCRYPT_MODE, key, ivspec);
+			byte[] result = cipher.doFinal(src.getBytes("UTF-8"));
 			System.out.println("encode:" + Base64.encodeBase64String(result));
 			;
 
@@ -232,7 +262,7 @@ public class Test {
 			PKCS8EncodedKeySpec pkcs8EncodedKeySpec = new PKCS8EncodedKeySpec(rsaPrivateKey.getEncoded());
 			KeyFactory keyFactoryEncode = KeyFactory.getInstance("RSA");
 			PrivateKey privateKey = keyFactoryEncode.generatePrivate(pkcs8EncodedKeySpec);
-			Cipher cipher = Cipher.getInstance("RSA");
+			Cipher cipher = Cipher.getInstance("RSA/ECB/NoPadding");
 			cipher.init(Cipher.ENCRYPT_MODE, privateKey);
 			byte[] result = cipher.doFinal(src.getBytes());
 			System.out.println("私钥加密，公钥解密--加密: " + Base64.encodeBase64String(result));

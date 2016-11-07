@@ -4,11 +4,11 @@ import java.util.Map;
 
 import javax.crypto.SecretKey;
 
-import security.CryptInitial;
+import security.DH3DESInitial;
 
 public class DoProcess {
 
-	private static Map<String, SecretKey> keyMap = CryptInitial.doInit();
+	private static Map<String, SecretKey> keyMap = DH3DESInitial.doInit();
 	private static final SecretKey senderDesKey = keyMap.get("senderDesKey");
 	private static final SecretKey receiverDesKey = keyMap.get("receiverDesKey");
 	

@@ -3,7 +3,7 @@ package security;
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 
-public class Encode {
+public class DH3DESEncode {
 	public static byte[] Encrypt(String src, SecretKey senderDesKey, String instanceName) {
 		byte[] result = null;
 		try {

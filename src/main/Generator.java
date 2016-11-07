@@ -18,7 +18,7 @@ import com.google.zxing.common.BitMatrix;
 import informations.Customer;
 import informations.Produtcion;
 import informations.Vendor;
-import security.Encode;
+import security.DH3DESEncode;
 
 public class Generator {
 	private static final int outputSizes = 600;
@@ -44,7 +44,7 @@ public class Generator {
 				+ produtction.getProductionNumber() + "\n" + vendor.getVendorName() + "\n" + customer.getCustomerName();
 		String pathname = customer.getCustomerName() + dateDay + ".png";
 		
-		String src = Base64.encodeBase64String(Encode.Encrypt(text, senderDesKey, instanceName));
+		String src = Base64.encodeBase64String(DH3DESEncode.Encrypt(text, senderDesKey, instanceName));
 		
 		Hashtable<EncodeHintType, String> hints = new Hashtable<EncodeHintType, String>();
 		hints.put(EncodeHintType.CHARACTER_SET, "utf-8");

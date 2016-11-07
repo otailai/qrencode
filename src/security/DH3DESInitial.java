@@ -5,6 +5,8 @@ import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.security.interfaces.RSAPrivateKey;
+import java.security.interfaces.RSAPublicKey;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +16,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.interfaces.DHPublicKey;
 import javax.crypto.spec.DHParameterSpec;
 
-public class CryptInitial {
+public class DH3DESInitial {
 	private static final String PRIVATE_KEY_ALGORITHM_PARAMETER = "DESede";
 	private static final String CRYPT_ALGORITHM_PARAMETER = "DH";
 	private static final int KEY_PAIR_INITIAL_PARAMETER = 512;
