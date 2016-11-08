@@ -127,6 +127,7 @@ public class Test {
 //		System.out.println(new String(result));
 //		
 		
+		//http://www.cnblogs.com/lidabo/p/3501285.html
 	}
 
 	private static void jdkAes() {
